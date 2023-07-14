@@ -1,10 +1,9 @@
 const express = require("express");
 const app = express();
-const bodyparser = require("body-parser");
 const exhbs = require("express-handlebars");
-// const dbo = require("./dbaccess/db_connection");
+const jwt = require("jsonwebtoken");
 const dbo = require("./dbaccess/model_details_access");
-const { ObjectId } = require("mongodb");
+const loginRouter = require("./routes/login_page");
 
 app.engine(
   "hbs",
@@ -13,12 +12,6 @@ app.engine(
 app.set("view engine", "hbs");
 app.set("views", "views");
 
-app.get("/employee_get/:id", async (req, res) => {
-  let employee = await dbo.selectModel(
-    { _id: new ObjectId(req.params.id) },
-    "admin_user"
-  );
-  res.send(employee);
-});
+app.use("/login", loginRouter);
 
 app.listen(8000, () => {});

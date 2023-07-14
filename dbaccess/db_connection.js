@@ -4,10 +4,9 @@ const MongoClient = mongodb.MongoClient;
 let database;
 
 async function getDataBase() {
-  const client = MongoClient.connect(
-    "mongodb+srv://cluster0.1501x.mongodb.net/myFirstDatabase?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority&tls=true&tlsCertificateKeyFile=C%3A%5CUsers%5Cnatra%5Cavp+backend%5Cap-backend%5Ckey.pem"
-  );
-  database = (await client).db("avpdb");
+  const client = MongoClient.connect("mongodb://localhost:27017");
+
+  database = (await client).db("React_Python_Node");
 
   if (!database) {
     console.log("database not connected");
