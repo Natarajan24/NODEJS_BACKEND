@@ -1,17 +1,27 @@
 const express = require("express");
 const app = express();
-const exhbs = require("express-handlebars");
-const jwt = require("jsonwebtoken");
-const dbo = require("./dbaccess/model_details_access");
-const loginRouter = require("./routes/login_page");
+const dbo = require("./main/dbaccess/model_details_access");
+const { ObjectId } = require("mongodb");
 
-app.engine(
-  "hbs",
-  exhbs.engine({ layoutsDir: "views/", defaultLayout: "main", extname: "hbs" })
-);
-app.set("view engine", "hbs");
-app.set("views", "views");
+app.get("/login/:id", async (req, res) => {
+  pipeline = [
+    {
+      $match: {
+        _id: new ObjectId(req.params.id),
+      },
+    },
+  ];
 
-app.use("/login", loginRouter);
+  const employee = await dbo.aggregateModel(pipeline, "user_login");
+  res.send(employee);
+});
+
+app.post("/login", async (req, res) => {
+  let datas = await dbo.insertModel(
+    { name: "ajith", email: "ddcsdcds" },
+    "user_login"
+  );
+  res.send(datas);
+});
 
 app.listen(8000, () => {});
