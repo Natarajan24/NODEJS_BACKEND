@@ -1,27 +1,14 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
-const dbo = require("./main/dbaccess/model_details_access");
-const { ObjectId } = require("mongodb");
+const loginRouter = require("./main/routes/login_page");
 
-app.get("/login/:id", async (req, res) => {
-  pipeline = [
-    {
-      $match: {
-        _id: new ObjectId(req.params.id),
-      },
-    },
-  ];
+const bodyParser = require("body-parser");
 
-  const employee = await dbo.aggregateModel(pipeline, "user_login");
-  res.send(employee);
-});
-
-app.post("/login", async (req, res) => {
-  let datas = await dbo.insertModel(
-    { name: "ajith", email: "ddcsdcds" },
-    "user_login"
-  );
-  res.send(datas);
-});
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+// app.use("/login", loginRouter);
+app.use("/user", loginRouter);
 
 app.listen(8000, () => {});
