@@ -51,7 +51,6 @@ const { ObjectId } = require("mongodb");
 // });
 
 router.post("/", async (req, res) => {
-  console.log("122345");
   const userAdd = await dbo
     .insertModel(req.body, "user_login")
     .then(() => {
