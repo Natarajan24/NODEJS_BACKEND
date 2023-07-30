@@ -32,6 +32,46 @@ async function insertModel(query, collection_name) {
   }
 }
 
+
+async function updateModel(collection_name, id, newValue) {
+  let database;
+  try {
+    database = await dbo.getDataBase();
+    const collection = database.collection(collection_name);
+    const update = await collection.updateOne({ _id: id }, { $set: newValue }
+    );
+    if (update) {
+      return "update successfuly";
+
+    } else {
+      return "update unsuccessfuly";
+    }
+  } catch (error) {
+    return error;
+  } finally {
+  }
+}
+
+
+async function deleteModel(collection_name, id) {
+  let database;
+  try {
+    database = await dbo.getDataBase();
+    const collection = database.collection(collection_name);
+    const result = await collection.deleteOne({ _id: id });
+    if (result) {
+      return "deleted successfuly";
+
+    } else {
+      return "deleted unsuccessfuly";
+    }
+  } catch (error) {
+    return error;
+  } finally {
+  }
+}
+
+
 async function aggregateModel(query, collection_name) {
   try {
     database = await dbo.getDataBase();
@@ -49,4 +89,4 @@ async function aggregateModel(query, collection_name) {
   }
 }
 
-module.exports = { selectModel, insertModel, aggregateModel };
+module.exports = { selectModel, insertModel, aggregateModel, updateModel, deleteModel };
