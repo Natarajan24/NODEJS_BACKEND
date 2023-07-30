@@ -71,7 +71,6 @@ async function deleteModel(collection_name, id) {
   }
 }
 
-
 async function aggregateModel(query, collection_name) {
   try {
     database = await dbo.getDataBase();
