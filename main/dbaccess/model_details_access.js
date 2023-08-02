@@ -19,6 +19,25 @@ async function selectModel(collection_name) {
   }
 }
 
+async function findOneModel(query,collection_name) {
+  let database;
+  try {
+    database = await dbo.getDataBase();
+    const collection = database.collection(collection_name);
+    const cursor = collection.findOne(query);
+    let data = await cursor.toArray();
+
+    if (!data) {
+      return [];
+    } else {
+      return data;
+    }
+  } catch (error) {
+    return [];
+  } finally {
+  }
+}
+
 async function insertModel(query, collection_name) {
   let database;
   try {
@@ -34,12 +53,15 @@ async function insertModel(query, collection_name) {
 
 
 async function updateModel(collection_name, id, newValue) {
+  console.log("newValue",newValue)
   let database;
   try {
     database = await dbo.getDataBase();
     const collection = database.collection(collection_name);
     const update = await collection.updateOne({ _id: id }, { $set: newValue }
     );
+    console.log("update",update)
+
     if (update) {
       return "update successfuly";
 
@@ -87,4 +109,5 @@ async function aggregateModel(query, collection_name) {
   } finally {
   }
 }
-module.exports = { selectModel, insertModel, aggregateModel, updateModel, deleteModel };
+
+module.exports = { selectModel, insertModel, aggregateModel, updateModel, deleteModel ,findOneModel};
