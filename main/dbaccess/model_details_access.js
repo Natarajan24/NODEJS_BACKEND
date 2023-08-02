@@ -87,5 +87,4 @@ async function aggregateModel(query, collection_name) {
   } finally {
   }
 }
-
 module.exports = { selectModel, insertModel, aggregateModel, updateModel, deleteModel };
